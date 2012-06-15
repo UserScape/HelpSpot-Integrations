@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:widget="http://www.netvibes.com/ns/"  >
+  <head>
+ 
+    <meta name="author" content="UserScape" />
+    <meta name="description" content="HelpSpot API Example" />
+    
+    <meta name="apiVersion" content="1.0" />
+    <meta name="inline" content="true" />
+    <meta name="autoRefresh" content="20" />
+    <meta name="debugMode" content="false" />
+ 
+    <link rel="stylesheet" type="text/css" href="http://www.netvibes.com/themes/uwa/style.css" />
+    <script type="text/javascript" src="http://www.netvibes.com/js/UWA/load.js.php?env=Standalone"></script>
+ 
+    <title>HelpSpot API Example</title>
+    <link rel="icon" type="image/png"  href="http://www.userscape.com/favicon.ico" />
+ 
+    <widget:preferences>
+      <preference name="username" type="text" label="Username" defaultValue="" />
+      <preference name="password" type="text" label="Password" defaultValue="" />
+      <preference name="apiurl" type="text" label="HelpSpot URL (must end with /)" defaultValue="" />
+    </widget:preferences>
+
+	<script type="text/javascript">
+	var HelpSpot = {}
+	
+	widget.onLoad = function() {
+		//If we know a username/password then continue or else let the user know
+		if(widget.getValue('username') != "" && widget.getValue('password') != "" && widget.getValue('apiurl') != ""){
+			//Show loading
+			widget.setBody('Loading...');
+			
+			//Get data, data is parsed and inserted via HelpSpot_Show_Filter function
+			UWA.Data.getJson(
+				widget.getValue('apiurl') + "/api/index.php?method=private.filter.get&xFilter=myq&output=json&username="+widget.getValue('username')+"&password="+widget.getValue('password'),
+				HelpSpot.showFilter
+			);
+		}else{
+			widget.setBody('Please click the edit button and set your username, password, and HelpSpot URL.');
+		}
+	}
+	
+	HelpSpot.showFilter = function(json){
+		//Check that API enabled
+		if(json.reply){
+			widget.setBody("Enable the private API in Admin->settings");
+			return;
+		}
+	
+		var html = '<table class="nv-datagrid">';
+		html = html + '<thead>';
+		html = html + '<tr>';
+		html = html + '<th>&nbsp;</th><th>Customer</th><th>Unread</th>';
+		html = html + '</tr>';
+		html = html + '</thead>';
+		html = html + '<tbody>';
+		for(i=0;i < json.request.length;i++){
+			html = html + '<tr>';
+			html = html + '<td><a href="'+widget.getValue('apiurl')+'admin.php?pg=request&reqid='+json.request[i].xRequest+'" target="_blank">'+json.request[i].xRequest+'</a></td>';
+			html = html + '<td><b>'+json.request[i].fullname+'</b></td>';
+			html = html + '<td>'+(json.request[i].isUnread ? "yes" : "-")+'</td>';
+			html = html + '</tr>';
+		}
+		html = html + '</tbody>';
+		html = html + '</table>';
+	 
+		widget.setBody(html);
+		return;
+	}
+	</script>
+  </head>
+  <body>
+    <p>Loading...</p>
+  </body>
+</html>
