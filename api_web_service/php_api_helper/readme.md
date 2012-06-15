@@ -1,6 +1,13 @@
 # PHP API Helper
 
-A wrapper class for the public and private web service API's. You can drop this class in and access the HelpSpot API in just a few lines of code. Here's a few examples:
+A wrapper class for the public and private HelpSpot web service API's. You can drop this class in and access the HelpSpot API in just a few lines of code. 
+
+Docs on each API method can be found here:
+
+* [Private API Methods](http://www.helpspot.com/helpdesk/index.php?pg=kb.page&id=164)
+* [Public API Methods](http://www.helpspot.com/helpdesk/index.php?pg=kb.page&id=163)
+
+Here's a few examples:
 
 ## MOST BASIC USAGE
 Desc: Make a public API call which returns an array with the current API version installed.
@@ -51,7 +58,7 @@ Desc: Search for requests. It's also possible to retreive filters of requests as
 								'username' => 'todd@company.com',
 								'password' => 'pass'
 							)); 
-							
+
 	$result = $hsapi->privateRequestSearch(array(
 								'sUserId' => '76489',		//Customer ID to search for
 								'relativedate' => 'past_7'	//Limits results to requests created in the past 7 days
