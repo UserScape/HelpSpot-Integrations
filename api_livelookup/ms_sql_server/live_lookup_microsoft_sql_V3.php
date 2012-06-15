@@ -1,0 +1,82 @@
+<?php
+/*
+Sample Live Lookup against a Microsoft SQL Server database
+This script uses the Live Lookup setting: HTTP - GET
+
+Live Lookup documentation: http://www.userscape.com/helpdesk/index.php?pg=kb.page&id=6
+
+This script assumes a customer database table as defined below. You'll probably need to make slight adjustments to the script for your particular database.
+id
+firstname
+lastname
+email
+phone
+*/
+
+/***** DATABASE CONNECTION VARIABLES *****/
+$host = "localhost";
+$user = "";
+$pswd = "";
+$name = ""; //database name
+
+/***** LIVE LOOKUP LOGIC *****/
+$params = array();
+
+//This is very simple logic. You could expand on this by adding a first name + last name serach, search by email domains, etc
+
+if(!empty($_GET['customer_id'])){	//If an ID is passed in use that to make a direct lookup
+	
+	$filter = 'id=?';
+	$params[] = $_GET['customer_id'];
+	
+}elseif(!empty($_GET['email'])){			//If no ID then try email
+	
+	$filter = 'email=?';
+	$params[] = $_GET['email'];
+
+}elseif(!empty($_GET['last_name'])){	//If no ID or email then search on last name
+	
+	$filter = 'lastname=?';
+	$params[] = $_GET['last_name'];
+	
+}elseif(!empty($_GET['first_name'])){	//Try first name if no ID,email,last name
+	
+	$filter = 'firstname=?';	
+	$params[] = $_GET['first_name'];
+
+}else{
+	$filter = '1=0'; //Don't return any results
+}
+
+/***** QUERY DATABASE *****/
+$connectionInfo = array("Database"=>$name,'UID'=>$user,'PWD'=>$pswd);
+$link=sqlsrv_connect($host,$connectionInfo);
+if(!is_resource($link)){
+	echo 'Unable to connect to database';
+	die( print_r( sqlsrv_errors(), true));
+}else{
+	//Query the db
+	$result = sqlsrv_query($link,"SELECT * FROM customers WHERE ".$filter, $params);
+
+	if( $result === false){
+		 echo "Error in query preparation/execution.\n";
+		 die( print_r( sqlsrv_errors(), true));
+	}	
+}
+
+/***** OUTPUT LIVE LOOKUP XML *****/
+header('Content-type: text/xml');
+echo '<?xml version="1.0" encoding="ISO-8859-1"?>';
+?>
+<livelookup version="1.0" columns="first_name,last_name, email">
+        <?php while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)): ?>
+        <customer>
+                <customer_id><?php echo $row['id']; ?></customer_id>
+                <first_name><?php echo $row['firstname']; ?></first_name>
+                <last_name><?php echo $row['lastname']; ?></last_name>
+                <email><?php echo $row['email']; ?></email>
+                <phone><?php echo $row['phone']; ?></phone>
+                <!-- Add custom elements here. -->
+        </customer>
+        <?php endwhile; ?>
+</livelookup>
