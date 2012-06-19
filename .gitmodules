@@ -1,0 +1,3 @@
+[submodule "third_party/hip_chat"]
+	path = third_party/hip_chat
+	url = git://github.com/mitnworb/helpspot-2-hipchat-push.git
