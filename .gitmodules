@@ -7,3 +7,6 @@
 [submodule "third_party/api_python"]
 	path = third_party/api_python
 	url = git://github.com/JohnSpeno/python-helpspot.git
+[submodule "third_party/js_custom_widget"]
+	path = third_party/js_custom_widget
+	url = https://github.com/plasticbrain/HelpSpot-Custom-Widget-1.0
