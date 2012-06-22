@@ -13,3 +13,6 @@
 [submodule "third_party/api_ruby"]
 	path = third_party/api_ruby
 	url = https://github.com/jbrw/help_spot
+[submodule "third_party/campfire_bot"]
+	path = third_party/campfire_bot
+	url = https://github.com/abachman/pat-the-campfire-bot
