@@ -1,0 +1,1 @@
+xRequest NOT IN (SELECT xRequest FROM HS_Request_ReportingTags WHERE HS_Request_ReportingTags.xRequest = xRequest)
