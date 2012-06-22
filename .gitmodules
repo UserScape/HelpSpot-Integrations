@@ -10,3 +10,6 @@
 [submodule "third_party/js_custom_widget"]
 	path = third_party/js_custom_widget
 	url = https://github.com/plasticbrain/HelpSpot-Custom-Widget-1.0
+[submodule "third_party/api_ruby"]
+	path = third_party/api_ruby
+	url = https://github.com/jbrw/help_spot
