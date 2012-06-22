@@ -4,3 +4,6 @@
 [submodule "third_party/helpifier"]
 	path = third_party/helpifier
 	url = git://github.com/Figure53/Helpifier.git
+[submodule "third_party/api_python"]
+	path = third_party/api_python
+	url = git://github.com/JohnSpeno/python-helpspot.git
