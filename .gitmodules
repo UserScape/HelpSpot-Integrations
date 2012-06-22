@@ -1,3 +1,6 @@
 [submodule "third_party/hip_chat"]
 	path = third_party/hip_chat
 	url = git://github.com/mitnworb/helpspot-2-hipchat-push.git
+[submodule "third_party/helpifier"]
+	path = third_party/helpifier
+	url = git://github.com/Figure53/Helpifier.git
