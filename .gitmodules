@@ -16,3 +16,6 @@
 [submodule "third_party/campfire_bot"]
 	path = third_party/campfire_bot
 	url = https://github.com/abachman/pat-the-campfire-bot
+[submodule "third_party/textanywhere_sms"]
+	path = third_party/textanywhere_sms
+	url = https://github.com/kamazoy/HelpSpot-TextAnywhere-SMS-gateway.git
