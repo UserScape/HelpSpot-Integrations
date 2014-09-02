@@ -51,7 +51,8 @@ while($file = $query->FetchRow()){
         //hashed file name to prevent easily finding files in the web root path.
         $ext = explode('.', $file['sFilename']);
         $id = count($ext)-1;
-        $extension = ($ext[$id] ? $ext[$id] : 'txt');
+        $extension = str_replace('/', '_',($ext[$id] ? $ext[$id] : 'txt'));
+
         //Use uniqid() in hash to ensure it's unique
         $file_path = '/'. $year .'/'. $month .'/'. $day .'/'. md5($file['sFilename'] . uniqid('helpspot')) .'.'. $extension;
 
