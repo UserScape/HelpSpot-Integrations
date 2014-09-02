@@ -2,7 +2,6 @@
 /*
 *   Notes:
 *   This script will convert attachments from being stored on the DB to the file system
-*   NOTE: after this runs you also need to run convert_attach_from_db_to_file_clean.php which will actually remove the blob content
 */
 
 //No time limit
@@ -41,11 +40,11 @@ while($file = $query->FetchRow()){
         if(!is_dir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year .'/'. $month .'/'. $day)){
             if(!is_dir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year)) @mkdir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year); //make year folder
             if(!is_dir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year .'/'. $month)) @mkdir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year .'/'. $month); //make month folder
-            //Don't need is_dir check here since it's done first so we know it isn't
+            //Don't need is_dir check here since it's done first
             @mkdir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year .'/'. $month .'/'. $day); //make day folder
         }
 
-        //hashed file name to prevent "bad guys" from finding it easy should someone put their files in the web root path.
+        //hashed file name to prevent easily finding files in the web root path.
         $ext = explode('.', $file['sFilename']);
         $id = count($ext)-1;
         $extension = ($ext[$id] ? $ext[$id] : 'txt');
