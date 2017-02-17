@@ -48,8 +48,11 @@ while($file = $query->FetchRow()){
             @mkdir(cHD_ATTACHMENT_LOCATION_PATH .'/'. $year .'/'. $month .'/'. $day); //make day folder
         }
 
+        // Windows doesn't like filenames with query strings so we parse it out
+        $parsed = parse_url($file['sFilename']);
+
         //hashed file name to prevent easily finding files in the web root path.
-        $ext = explode('.', $file['sFilename']);
+        $ext = explode('.', $parsed['path']);
         $id = count($ext)-1;
         $extension = str_replace('/', '_',($ext[$id] ? $ext[$id] : 'txt'));
 
